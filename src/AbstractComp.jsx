@@ -4,17 +4,22 @@ import ReactFlow, { useNodesState, useEdgesState, addEdge } from "reactflow";
 import "reactflow/dist/style.css";
 import { v4 as uuidv4 } from "uuid";
 
+
+const createNodes = (data) => {
+    return data.map((node) => ({
+        id: node.id,
+        position: { x: node.x, y: node.y },
+        data: { label: node.label },
+        style: node.style,
+        sourcePosition: "right",
+        targetPosition: "left",
+      }))
+}
+
+
 const AbstractComp = ({ data }) => {
   // Создаю массив узлов на основе данных, переданных в компонент
-  const [nodes, setNodes, onNodesChange] = useNodesState(
-    data.map((node) => ({
-      id: node.id,
-      position: { x: node.x, y: node.y },
-      data: { label: node.label },
-      sourcePosition: "right",
-      targetPosition: "left",
-    }))
-  );
+  const [nodes, setNodes, onNodesChange] = useNodesState(createNodes(data))
 
   // Использую хук useEdgesState для управления состоянием ребер
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
